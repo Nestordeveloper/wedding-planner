@@ -1,0 +1,43 @@
+.col-1 {
+    margin-right: 50%;
+}
+.btnLogin {
+    margin-top: 20px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 0px 1px rgba(0,0,0,1);
+}
+.btnRegister {
+    margin-top: 20px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 0px 1px rgba(0,0,0,1);
+}
+#btnLogout {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #007bff;
+}
+.navbar-nav li {
+    margin: 0 20px;
+}
+nav {
+    padding-bottom: 1%;
+    border-bottom: 2px solid black;
+}
+.text-left h1 {
+    margin: 20px 0;
+}
+.table {
+    border: 2px solid black;
+}
+.guests {
+    border: 1px solid black;
+    padding: 1%;
+}
+.guests>p {
+    font-size: 1.2rem;
+
+}

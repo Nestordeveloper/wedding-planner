@@ -1,0 +1,15 @@
+<form asp-controller="Home" asp-action="AddGuest" method="post">
+    <input type="hidden" name="WeddingId" value="AQUÍ_DEBE_IR_EL_ID_DE_LA_BODA" />
+
+    <div class="form-group">
+        <label for="UserId">Seleccionar Usuario</label>
+        <select class="form-control" name="UserId">
+            <option value="">Seleccione un usuario</option>
+            @foreach (var user in ViewBag.AvailableUsers)
+            {
+                <option value="@user.UserId">@user.FirstName @user.LastName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar Invitación</button>
+</form>

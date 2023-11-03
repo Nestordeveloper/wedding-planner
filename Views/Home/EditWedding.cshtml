@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = " Edit Wedding";
+}
+@model Wedding
+<link rel="stylesheet" href="~/css/styles.css">
+@await Html.PartialAsync("_Nav", "Welcome")
+<h1>@Model.WedderOne & @Model.WedderTwo</h1>
+<h2>@Model.WeddingDate.ToString("MMM dd yyyy")</h2>
+<h3>Guests:</h3>
+@await Html.PartialAsync("_AddGuests")

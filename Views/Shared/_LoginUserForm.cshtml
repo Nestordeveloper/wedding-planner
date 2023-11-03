@@ -1,0 +1,20 @@
+@model LoginUser;
+<form asp-action="ProcessLogin" asp-controller="Home" method="post">
+    <div class="form-group row">
+        <label asp-for="EmailLog" class="col-sm-4 col-form-label">Email:</label>
+        <div class="col-sm-8">
+            <input asp-for="EmailLog" type="email" class="form-control">
+        </div>
+        <span asp-validation-for="EmailLog"></span>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PasswordLog" class="col-sm-4 col-form-label">Password:</label>
+        <div class="col-sm-8">
+            <input asp-for="PasswordLog" type="password" class="form-control">
+        </div>
+        <span asp-validation-for="PasswordLog"></span>
+    </div>
+    <div class="d-flex justify-content-start">
+        <button class="btn btnLogin">Login</button>
+    </div>
+</form>

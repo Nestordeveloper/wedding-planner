@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Weddings";
+}
+@model List<Wedding>
+<link rel="stylesheet" href="~/css/styles.css">
+@await Html.PartialAsync("_Nav", "Welcome")
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th scope="col">Wedding of</th>
+            <th scope="col">Date</th>
+            <th scope="col">Guest Count</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Wedding wedding in Model)
+        {
+            <tr>
+                <td>@wedding.WedderOne & @wedding.WedderTwo</td>
+                <td>@wedding.WeddingDate.ToString("MMM dd yyyy")</td>
+                <td></td>
+                <td>
+                    @if (Context.Session.GetInt32("UserId") == wedding.UserId)
+                    {
+                        <form method="POST" asp-controller="Home" asp-action="DeleteWedding"
+                            asp-route-WeddingId="@wedding.WeddingId">
+                            <button class="btn btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    }
+                    @if (Context.Session.GetInt32("UserId") == wedding.UserId)
+                    {
+                        <form method="GET" asp-controller="Home" asp-action="EditWedding"
+                            asp-route-WeddingId="@wedding.WeddingId">
+                            <button class="btn btn-warning">
+                                Edit
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
