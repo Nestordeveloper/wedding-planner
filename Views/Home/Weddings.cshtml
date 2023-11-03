@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "Weddings";
 }
-@model List<Wedding>
+@model List<WeddingViewModel>
 <link rel="stylesheet" href="~/css/styles.css">
 @await Html.PartialAsync("_Nav", "Welcome")
 <table class="table table-striped mt-4">
@@ -14,12 +14,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Wedding wedding in Model)
+        @foreach (var weddingViewModel in Model)
         {
+            var wedding = weddingViewModel.Wedding;
+            var isInvited = weddingViewModel.IsInvited;
+
             <tr>
                 <td>@wedding.WedderOne & @wedding.WedderTwo</td>
                 <td>@wedding.WeddingDate.ToString("MMM dd yyyy")</td>
-                <td></td>
+                <td>@wedding.Invitados.Count</td>
                 <td>
                     @if (Context.Session.GetInt32("UserId") == wedding.UserId)
                     {
@@ -29,14 +32,23 @@
                                 Delete
                             </button>
                         </form>
-                    }
-                    @if (Context.Session.GetInt32("UserId") == wedding.UserId)
-                    {
                         <form method="GET" asp-controller="Home" asp-action="EditWedding"
                             asp-route-WeddingId="@wedding.WeddingId">
                             <button class="btn btn-warning">
                                 Edit
                             </button>
+                        </form>
+                    }
+                    @if (isInvited)
+                    {
+                        <form method="POST" asp-controller="Home" asp-action="ChangeAttendanceStatus"
+                            asp-route-WeddingId="@wedding.WeddingId">
+                            <div class="form-group mb-2">
+                                <input type="hidden" name="WeddingId" value="@wedding.WeddingId" />
+                                <label for="AttendanceStatus"></label>
+                                <button type="submit" name="AttendanceStatus" value="0" class="btn btn-success">Aceptar</button>
+                                <button type="submit" name="AttendanceStatus" value="1" class="btn btn-danger">Rechazar</button>
+                            </div>
                         </form>
                     }
                 </td>

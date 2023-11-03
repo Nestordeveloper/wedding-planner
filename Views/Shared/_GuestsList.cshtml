@@ -1,0 +1,6 @@
+<div class="guests col-4 mb-5">
+    @foreach (var invitation in Model.Invitados)
+    {
+        <p>@invitation.User.FirstName @invitation.User.LastName</p>
+    }
+</div>

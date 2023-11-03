@@ -44,3 +44,10 @@ public class FutureDateAttribute : ValidationAttribute
         return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
     }
 }
+
+public class WeddingViewModel
+{
+    public Wedding Wedding { get; set; }
+    public bool IsInvited { get; set; }
+    public int GuestCount { get; set; }
+}

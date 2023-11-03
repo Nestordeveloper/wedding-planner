@@ -7,4 +7,5 @@
 <h1>@Model.WedderOne & @Model.WedderTwo</h1>
 <h2>@Model.WeddingDate.ToString("MMM dd yyyy")</h2>
 <h3>Guests:</h3>
+@await Html.PartialAsync("_GuestsList")
 @await Html.PartialAsync("_AddGuests")

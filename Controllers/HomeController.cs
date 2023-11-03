@@ -137,16 +137,20 @@ public class HomeController : Controller
             return RedirectToAction("Login");
         }
 
-        List<Wedding> weddings = _context.Weddings.ToList();
-        User user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+        var weddingViewModels = new List<WeddingViewModel>();
 
-        if (user != null)
+        var weddings = _context.Weddings.Include(w => w.Invitados).ToList();
+
+        foreach (var wedding in weddings)
         {
-            return View(weddings); // Pasar la lista de bodas a la vista
+            bool isInvited = wedding.Invitados.Any(inv => inv.UserId == userId);
+            weddingViewModels.Add(new WeddingViewModel { Wedding = wedding, IsInvited = isInvited });
         }
 
-        return View("Weddings");
+        return View(weddingViewModels);
     }
+
+
 
     // VISTA WEDDING PRINCIPAL TABLA
     [HttpGet]
@@ -195,6 +199,7 @@ public class HomeController : Controller
     [Route("wedding/edit/{WeddingId}")]
     public IActionResult EditWedding(int WeddingId)
     {
+        int? userId = HttpContext.Session.GetInt32("UserId");
         var availableUsers = _context.Users.ToList();
 
         ViewBag.AvailableUsers = availableUsers;
@@ -204,15 +209,21 @@ public class HomeController : Controller
         {
             return RedirectToAction("Weddings");
         }
+        wedding.Invitados = _context.Invitations
+            .Where(invitation => invitation.WeddingId == wedding.WeddingId)
+            .Include(invitation => invitation.User)
+            .ToList();
 
         return View(wedding);
     }
+
 
     //WEDDING INVITATIONS
     [HttpPost]
     [Route("wedding/addguest")]
     public IActionResult AddGuest(int WeddingId, int UserId)
     {
+        int? userId = HttpContext.Session.GetInt32("UserId");
         if (ModelState.IsValid)
         {
             var invitation = new Invitation
@@ -232,6 +243,30 @@ public class HomeController : Controller
         }
     }
 
+    //ATTENDANCE INVITATION CHANGE
+    [HttpPost]
+    [Route("wedding/changeattendance")]
+    public IActionResult ChangeAttendanceStatus(int WeddingId, int InvitationId, int userProvidedStatus)
+    {
+        var invitation = _context.Invitations
+            .Include(i => i.Wedding)
+            .FirstOrDefault(i => i.InvitationId == InvitationId);
+
+        if (invitation != null)
+        {
+            if (userProvidedStatus == 0)
+            {
+                invitation.Attendance = AttendanceStatus.Aceptada;
+            }
+            else if (userProvidedStatus == 1)
+            {
+                invitation.Attendance = AttendanceStatus.Rechazada;
+            }
+
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Weddings");
+    }
 
 }
 
