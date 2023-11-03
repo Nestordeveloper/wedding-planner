@@ -1,7 +1,6 @@
 <form asp-controller="Home" asp-action="AddGuest" method="post">
-    <input type="hidden" name="WeddingId" value="AQUÍ_DEBE_IR_EL_ID_DE_LA_BODA" />
-
-    <div class="form-group">
+    <input type="hidden" name="WeddingId" value="@Model.WeddingId" />
+    <div class="form-group mb-4 col-4">
         <label for="UserId">Seleccionar Usuario</label>
         <select class="form-control" name="UserId">
             <option value="">Seleccione un usuario</option>
